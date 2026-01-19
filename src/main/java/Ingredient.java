@@ -1,37 +1,20 @@
-import java.util.Objects;
-
 public class Ingredient {
     private Integer id;
     private String name;
-    private CategoryEnum category;
     private Double price;
-    private Dish dish;
+    private CategoryEnum category;
     private Double quantity;
+    private UnitTypeEnum unit;
 
-    public Double getQuantity() {
-        return quantity;
-    }
+    public Ingredient() {}
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
-
-    public Ingredient() {
-    }
-
-    public Ingredient(Integer id) {
-        this.id = id;
-    }
-
-    public Ingredient(Integer id, String name, CategoryEnum category, Double price) {
+    public Ingredient(Integer id, String name, Double price, CategoryEnum category, Double quantity, UnitTypeEnum unit) {
         this.id = id;
         this.name = name;
-        this.category = category;
         this.price = price;
-    }
-
-    public String getDishName() {
-        return dish == null ? null : dish.getName();
+        this.category = category;
+        this.quantity = quantity;
+        this.unit = unit;
     }
 
     public Integer getId() {
@@ -50,14 +33,6 @@ public class Ingredient {
         this.name = name;
     }
 
-    public CategoryEnum getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryEnum category) {
-        this.category = category;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -66,35 +41,27 @@ public class Ingredient {
         this.price = price;
     }
 
-    public Dish getDish() {
-        return dish;
+    public CategoryEnum getCategory() {
+        return category;
     }
 
-    public void setDish(Dish dish) {
-        this.dish = dish;
+    public void setCategory(CategoryEnum category) {
+        this.category = category;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && category == that.category && Objects.equals(price, that.price) && Objects.equals(dish, that.dish);
+    public Double getQuantity() {
+        return quantity;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, category, price, dish);
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", category=" + category +
-                ", price=" + price +
-                ", dishName=" + getDishName() +
-                ", quantity=" + quantity +
-                '}';
+    public UnitTypeEnum getUnit() {
+        return unit;
+    }
+
+    public void setUnit(UnitTypeEnum unit) {
+        this.unit = unit;
     }
 }
