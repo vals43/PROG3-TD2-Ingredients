@@ -1,17 +1,25 @@
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
-        // Log before changes
-        DataRetriever dataRetriever = new DataRetriever();
-        Dish dish = dataRetriever.findDishById(4 );
-        System.out.println(dish);
 
-        // Log after changes
-//        dish.setIngredients(List.of(new Ingredient(1), new Ingredient(2)));
-//        Dish newDish = dataRetriever.saveDish(dish);
-//        System.out.println(newDish);
+    public static void main(String[] args) throws SQLException {
 
-        // Ingredient creations
-        //List<Ingredient> createdIngredients = dataRetriever.createIngredients(List.of(new Ingredient(null, "Fromage", CategoryEnum.DAIRY, 1200.0)));
-        //System.out.println(createdIngredients);
+        DataRetriever dr = new DataRetriever();
+
+        Dish dish1 = dr.findDishById(1);
+        System.out.println("Dish: " + dish1.getGrossMargin());
+
+        Dish dish3 = dr.findDishById(3);
+        System.out.println("Dish: " + dish3.getGrossMargin());
+
+        dish1.setPrice(2500.0);
+        dr.saveDish(dish1);
+
+        Dish saladeUpdated = dr.findDishById(dish1.getId());
+        System.out.println("Nouveau prix : " + saladeUpdated.getPrice());
+        System.out.println("Gross Margin : " + saladeUpdated.getGrossMargin());
+
     }
 }
