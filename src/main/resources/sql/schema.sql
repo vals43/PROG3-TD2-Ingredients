@@ -24,4 +24,4 @@ alter table dish
 
 
 alter table ingredient
-    add column if not exists required_quantity numeric(10, 2);
+    add column if not exists quantity_required numeric(10, 2);

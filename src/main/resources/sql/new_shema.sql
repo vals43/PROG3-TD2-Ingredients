@@ -4,19 +4,19 @@ create type ingredient_category as enum ('VEGETABLE', 'ANIMAL', 'MARINE', 'DAIRY
 CREATE TABLE Dish (
                       id SERIAL PRIMARY KEY,
                       name VARCHAR(100) NOT NULL,
-                      dishType dish_type,
-                      price DOUBLE NULL
+                      dish_type dish_type,
+                      price NUMERIC NULL
 );
 
 CREATE TABLE Ingredient (
                             id SERIAL PRIMARY KEY,
                             name VARCHAR(100) NOT NULL UNIQUE,
-                            price DOUBLE NOT NULL,
+                            price NUMERIC NOT NULL,
                             category ingredient_category
 );
 
 CREATE TABLE DishIngredient (
-                                id SERIAL NOT NULL PRIMARY KEY ,
+                                id SERIAL NOT NULL ,
                                 id_dish INT NOT NULL,
                                 id_ingredient INT NOT NULL,
                                 quantity_required DOUBLE PRECISION NOT NULL,

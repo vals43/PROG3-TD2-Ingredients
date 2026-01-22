@@ -1,4 +1,4 @@
-insert into dish (id, name, dish_type)
+insert into dish (id, name, dishType)
 values (1, 'Salaide fraîche', 'STARTER'),
        (2, 'Poulet grillé', 'MAIN'),
        (3, 'Riz aux légumes', 'MAIN'),
