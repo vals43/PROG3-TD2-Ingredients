@@ -40,6 +40,9 @@ public class DataRetriever {
     }
 
     public Dish saveDish(Dish toSave) {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+
         String upsertDishSql = """
                 INSERT INTO dish (id, name, dish_type, price)
                 VALUES (?, ?, ?::dish_type, ?)
@@ -50,15 +53,15 @@ public class DataRetriever {
                 RETURNING id
                 """;
 
-        try (Connection conn = new DBConnection().getConnection()) {
-            conn.setAutoCommit(false);
+        try {
+            connection.setAutoCommit(false);
             Integer dishId;
 
-            try (PreparedStatement ps = conn.prepareStatement(upsertDishSql)) {
+            try (PreparedStatement ps = connection.prepareStatement(upsertDishSql)) {
                 if (toSave.getId() != null) {
                     ps.setInt(1, toSave.getId());
                 } else {
-                    ps.setInt(1, getNextSerialValue(conn, "dish", "id"));
+                    ps.setInt(1, getNextSerialValue("dish", "id"));
                 }
 
                 ps.setString(2, toSave.getName());
@@ -75,13 +78,15 @@ public class DataRetriever {
                 dishId = rs.getInt(1);
             }
 
-            deleteDishIngredients(conn, dishId);
-            saveDishIngredients(conn, dishId, toSave.getIngredients());
+            deleteDishIngredients(dishId);
+            saveDishIngredients(dishId, toSave.getIngredients());
 
-            conn.commit();
+            connection.commit();
             return findDishById(dishId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            dbConnection.closeConnection(connection);
         }
     }
 
@@ -90,12 +95,12 @@ public class DataRetriever {
             return List.of();
         }
 
-        List<Ingredient> savedIngredients = new ArrayList<>();
         DBConnection dbConnection = new DBConnection();
-        Connection conn = dbConnection.getConnection();
+        Connection connection = dbConnection.getConnection();
+        List<Ingredient> savedIngredients = new ArrayList<>();
 
         try {
-            conn.setAutoCommit(false);
+            connection.setAutoCommit(false);
 
             String insertSql = """
                     INSERT INTO ingredient (id, name, price, category)
@@ -103,12 +108,12 @@ public class DataRetriever {
                     RETURNING id
                     """;
 
-            try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+            try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
                 for (Ingredient ingredient : newIngredients) {
                     if (ingredient.getId() != null) {
                         ps.setInt(1, ingredient.getId());
                     } else {
-                        ps.setInt(1, getNextSerialValue(conn, "ingredient", "id"));
+                        ps.setInt(1, getNextSerialValue("ingredient", "id"));
                     }
 
                     ps.setString(2, ingredient.getName());
@@ -122,12 +127,12 @@ public class DataRetriever {
                 }
             }
 
-            conn.commit();
+            connection.commit();
             return savedIngredients;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            dbConnection.closeConnection(conn);
+            dbConnection.closeConnection(connection);
         }
     }
 
@@ -169,21 +174,22 @@ public class DataRetriever {
         }
     }
 
-    private void saveDishIngredients(Connection conn, Integer dishId, List<Ingredient> ingredients)
-            throws SQLException {
-
+    private void saveDishIngredients(Integer dishId, List<Ingredient> ingredients) {
         if (ingredients == null || ingredients.isEmpty()) {
             return;
         }
+
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
 
         String insertSql = """
                 INSERT INTO dishingredient (id, id_dish, id_ingredient, quantity_required, unit)
                 VALUES (?, ?, ?, ?, ?::unit_type)
                 """;
 
-        try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
+        try (PreparedStatement ps = connection.prepareStatement(insertSql)) {
             for (Ingredient ingredient : ingredients) {
-                ps.setInt(1, getNextSerialValue(conn, "dishingredient", "id"));
+                ps.setInt(1, getNextSerialValue("dishingredient", "id"));
                 ps.setInt(2, dishId);
                 ps.setInt(3, ingredient.getId());
                 ps.setDouble(4, ingredient.getQuantity());
@@ -191,37 +197,62 @@ public class DataRetriever {
                 ps.addBatch();
             }
             ps.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            dbConnection.closeConnection(connection);
         }
     }
 
-    private void deleteDishIngredients(Connection conn, Integer dishId) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(
+    private void deleteDishIngredients(Integer dishId) {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+
+        try (PreparedStatement ps = connection.prepareStatement(
                 "DELETE FROM dishingredient WHERE id_dish = ?")) {
             ps.setInt(1, dishId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            dbConnection.closeConnection(connection);
         }
     }
 
-    private String getSerialSequenceName(Connection conn, String tableName, String columnName)
-            throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(
+    private String getSerialSequenceName(String tableName, String columnName) {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+
+        try (PreparedStatement ps = connection.prepareStatement(
                 "SELECT pg_get_serial_sequence(?, ?)")) {
             ps.setString(1, tableName);
             ps.setString(2, columnName);
             ResultSet rs = ps.executeQuery();
             rs.next();
             return rs.getString(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            dbConnection.closeConnection(connection);
         }
     }
 
-    private int getNextSerialValue(Connection conn, String tableName, String columnName)
-            throws SQLException {
-        String sequenceName = getSerialSequenceName(conn, tableName, columnName);
-        try (PreparedStatement ps = conn.prepareStatement("SELECT nextval(?)")) {
-            ps.setString(1, sequenceName);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return rs.getInt(1);
+    private int getNextSerialValue(String tableName, String columnName) {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+
+        try {
+            String sequenceName = getSerialSequenceName(tableName, columnName);
+            try (PreparedStatement ps = connection.prepareStatement("SELECT nextval(?)")) {
+                ps.setString(1, sequenceName);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            dbConnection.closeConnection(connection);
         }
     }
 }
