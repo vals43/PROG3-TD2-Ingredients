@@ -1,20 +1,34 @@
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+
 public class Ingredient {
     private Integer id;
     private String name;
-    private Double price;
     private CategoryEnum category;
-    private Double quantity;
-    private UnitTypeEnum unit;
+    private Double price;
+    private List<StockMovement> stockMovementList;
 
-    public Ingredient() {}
+    public List<StockMovement> getStockMovementList() {
+        return stockMovementList;
+    }
 
-    public Ingredient(Integer id, String name, Double price, CategoryEnum category, Double quantity, UnitTypeEnum unit) {
+    public void setStockMovementList(List<StockMovement> stockMovementList) {
+        this.stockMovementList = stockMovementList;
+    }
+
+    public Ingredient() {
+    }
+
+    public Ingredient(Integer id) {
+        this.id = id;
+    }
+
+    public Ingredient(Integer id, String name, CategoryEnum category, Double price) {
         this.id = id;
         this.name = name;
-        this.price = price;
         this.category = category;
-        this.quantity = quantity;
-        this.unit = unit;
+        this.price = price;
     }
 
     public Integer getId() {
@@ -33,14 +47,6 @@ public class Ingredient {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     public CategoryEnum getCategory() {
         return category;
     }
@@ -49,19 +55,50 @@ public class Ingredient {
         this.category = category;
     }
 
-    public Double getQuantity() {
-        return quantity;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public UnitTypeEnum getUnit() {
-        return unit;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && category == that.category && Objects.equals(price, that.price);
     }
 
-    public void setUnit(UnitTypeEnum unit) {
-        this.unit = unit;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, category, price);
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category=" + category +
+                ", price=" + price +
+                '}';
+    }
+
+    /* getStockValueAt method */
+    public StockValue getStockValueAt(Instant time){
+        List<StockMovement> concerned =  stockMovementList.stream().filter(stockMovement -> stockMovement.getCreationDatetime().isBefore(time)
+                        || stockMovement.getCreationDatetime().equals(time))
+                .toList();
+        double quantity = 0.0;
+        for (StockMovement sm : concerned) {
+            if(sm.getType() == MovementTypeEnum.IN){
+                quantity += sm.getValue().getQuantity();
+            } else {
+                quantity -= sm.getValue().getQuantity();
+            }
+        }
+        return new StockValue(quantity, concerned.getFirst().getValue().getUnit());
+    };
+
 }

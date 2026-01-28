@@ -9,7 +9,7 @@ public class DBConnection {
     private static final String JDBC_URL = dotenv.get("JDBC_URL");
     private static final String USERNAME = dotenv.get("USER");
     private static final String PASSWORD = dotenv.get("PASSWORD");
-    public Connection getConnection() {
+    public Connection getDBConnection() {
 
         try {
             if (JDBC_URL == null || USERNAME == null || PASSWORD == null) {
@@ -22,7 +22,7 @@ public class DBConnection {
         }
     }
 
-    public void closeConnection(Connection connection) {
+    public void close(Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
@@ -32,4 +32,3 @@ public class DBConnection {
         }
     }
 }
-
