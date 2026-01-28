@@ -1,7 +1,7 @@
 import java.util.Objects;
 
 public class DishOrder {
-    private int id;
+    private Integer id;
     private Dish dish;
     private int quantity;
 
@@ -14,7 +14,7 @@ public class DishOrder {
     public DishOrder() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -42,7 +42,7 @@ public class DishOrder {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         DishOrder dishOrder = (DishOrder) o;
-        return id == dishOrder.id && quantity == dishOrder.quantity && Objects.equals(dish, dishOrder.dish);
+        return Objects.equals(id, dishOrder.id) && quantity == dishOrder.quantity && Objects.equals(dish, dishOrder.dish);
     }
 
     @Override

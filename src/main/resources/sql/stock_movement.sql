@@ -1,6 +1,6 @@
 create type mouvement_type as enum ('IN', 'OUT');
 
-create table if not exists stock_movement (
+create table if not exists stockmovement (
     id                serial primary key,
     id_ingredient     int,
     quantity          numeric(10, 2) not null,
@@ -10,7 +10,7 @@ create table if not exists stock_movement (
     foreign key (id_ingredient) references ingredient (id)
 );
 
-insert into stock_movement (id, id_ingredient, quantity, type, unit, creation_datetime)
+insert into stockmovement (id, id_ingredient, quantity, type, unit, creation_datetime)
 values (1, 1, 5.0, 'IN', 'KG', '2024-01-05 08:00'),
        (2, 1, 0.2, 'OUT', 'KG', '2024-01-06 12:00'),
        (3, 2, 4.0, 'IN', 'KG', '2024-01-05 08:00'),

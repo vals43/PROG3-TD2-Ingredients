@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private int id;
+    private Integer id;
     private String reference;
     private Instant creationDatetime;
     private List<DishOrder> dishOrders;
@@ -15,7 +15,11 @@ public class Order {
         this.dishOrders = dishOrders;
     }
 
-    public int getId() {
+    public Order() {
+
+    }
+
+    public Integer getId() {
         return id;
     }
 
