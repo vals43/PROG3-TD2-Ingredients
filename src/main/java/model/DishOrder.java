@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Objects;
 
 public class DishOrder {
@@ -52,7 +54,7 @@ public class DishOrder {
 
     @Override
     public String toString() {
-        return "DishOrder{" +
+        return "Model.DishOrder{" +
                 "id=" + id +
                 ", dish=" + dish +
                 ", quantity=" + quantity +

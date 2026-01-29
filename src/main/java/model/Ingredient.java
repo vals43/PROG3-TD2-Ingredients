@@ -1,3 +1,5 @@
+package model;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +79,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "Ingredient{" +
+        return "Model.Ingredient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", category=" + category +

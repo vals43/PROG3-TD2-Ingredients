@@ -1,3 +1,5 @@
+package model;
+
 public enum CategoryEnum {
     VEGETABLE,
     ANIMAL,

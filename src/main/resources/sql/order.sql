@@ -12,3 +12,12 @@ create table if not exists dish_order (
     foreign key (id_order) references "order" (id),
     foreign key (id_dish) references dish (id)
 );
+
+
+--- Migration pour l'examen ---
+create type order_type as enum ('EAT_IN', 'TAKE_AWAY');
+create type order_status as enum ('CREATED', 'READY', 'DELIVERED');
+
+alter table "order"
+    add column type order_type default 'EAT_IN',
+add column status order_status default 'CREATED';

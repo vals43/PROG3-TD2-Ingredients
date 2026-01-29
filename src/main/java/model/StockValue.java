@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Objects;
 
 public class StockValue {
@@ -42,7 +44,7 @@ public class StockValue {
 
     @Override
     public String toString() {
-        return "StockValue{" +
+        return "Model.StockValue{" +
                 "quantity=" + quantity +
                 ", unit=" + unit +
                 '}';

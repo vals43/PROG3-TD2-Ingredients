@@ -1,3 +1,6 @@
+import model.Ingredient;
+import service.DataRetriever;
+
 import java.sql.SQLException;
 import java.time.Instant;
 
@@ -10,125 +13,125 @@ public class Main {
         DataRetriever dr = new DataRetriever();
 
 //        System.out.println("==== Test a) findDishById(1) ====");
-//        Dish dish1 = dr.findDishById(1);
-//        System.out.println("Dish: " + dish1.getName());
+//        Model.Dish dish1 = dr.findDishById(1);
+//        System.out.println("Model.Dish: " + dish1.getName());
 //        System.out.println("Ingredients:");
-//        for (Ingredient ing : dish1.getIngredient()) {
+//        for (Model.Ingredient ing : dish1.getIngredient()) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //       System.out.println("\n==== Test b) findDishById(999) ====");
-//        Dish dish999 = dr.findDishById(999);
-//        System.out.println("Dish: " + dish999.getName());
+//        Model.Dish dish999 = dr.findDishById(999);
+//        System.out.println("Model.Dish: " + dish999.getName());
 //
 //        System.out.println("\n==== Test c) findIngredients(page=2, size=2) ====");
-//        List<Ingredient> page2Ingredients = dr.findIngredients(2, 2);
-//        for (Ingredient ing : page2Ingredients) {
+//        List<Model.Ingredient> page2Ingredients = dr.findIngredients(2, 2);
+//        for (Model.Ingredient ing : page2Ingredients) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test d) findIngredients(page=3, size=5) ====");
-//        List<Ingredient> page3Ingredients = dr.findIngredients(3, 5);
+//        List<Model.Ingredient> page3Ingredients = dr.findIngredients(3, 5);
 //        if (page3Ingredients.isEmpty()) {
 //            System.out.println("Liste vide");
 //        } else {
-//            for (Ingredient ing : page3Ingredients) {
+//            for (Model.Ingredient ing : page3Ingredients) {
 //                System.out.println("- " + ing.getName());
 //            }
 //        }
 //
 //        System.out.println("\n==== Test e) findDishsByIngredientName('eur') ====");
-//        List<Dish> dishesWithEur = dr.findDishesByIngredientName("eur");
-//        for (Dish d : dishesWithEur) {
-//            System.out.println("Dish: " + d.getName());
+//        List<Model.Dish> dishesWithEur = dr.findDishesByIngredientName("eur");
+//        for (Model.Dish d : dishesWithEur) {
+//            System.out.println("Model.Dish: " + d.getName());
 //        }
 //
 //        System.out.println("\n==== Test f) findIngredientsByCriteria(category=VEGETABLE) ====");
-//        List<Ingredient> vegIngredients = dr.findIngredientByCriteria(
-//                null, CategoryEnum.VEGETABLE, null, 1, 10
+//        List<Model.Ingredient> vegIngredients = dr.findIngredientByCriteria(
+//                null, Enum.CategoryEnum.VEGETABLE, null, 1, 10
 //        );
-//        for (Ingredient ing : vegIngredients) {
+//        for (Model.Ingredient ing : vegIngredients) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test g) findIngredientsByCriteria(name='cho', dishName='Sal') ====");
-//        List<Ingredient> testG = dr.findIngredientByCriteria(
+//        List<Model.Ingredient> testG = dr.findIngredientByCriteria(
 //                "cho", null, "Sal", 1, 10
 //        );
 //        System.out.println(testG.isEmpty() ? "Liste vide" : testG);
 //
 //        System.out.println("\n==== Test h) findIngredientsByCriteria(name='cho', dishName='gâteau') ====");
-//        List<Ingredient> testH = dr.findIngredientByCriteria(
+//        List<Model.Ingredient> testH = dr.findIngredientByCriteria(
 //                "cho", null, "gâteau", 1, 10
 //        );
-//        for (Ingredient ing : testH) {
+//        for (Model.Ingredient ing : testH) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test i) createIngredients([Fromage, Oignon]) ====");
-//        List<Ingredient> newIngredients = new ArrayList<>();
-//        newIngredients.add(new Ingredient("Fromage", 1200.0, CategoryEnum.DAIRY));
-//        newIngredients.add(new Ingredient("Oignon", 500.0, CategoryEnum.VEGETABLE));
-//        List<Ingredient> createdIngredients = dr.createIngredients(newIngredients);
-//        for (Ingredient ing : createdIngredients) {
+//        List<Model.Ingredient> newIngredients = new ArrayList<>();
+//        newIngredients.add(new Model.Ingredient("Fromage", 1200.0, Enum.CategoryEnum.DAIRY));
+//        newIngredients.add(new Model.Ingredient("Oignon", 500.0, Enum.CategoryEnum.VEGETABLE));
+//        List<Model.Ingredient> createdIngredients = dr.createIngredients(newIngredients);
+//        for (Model.Ingredient ing : createdIngredients) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test j) createIngredients([Carotte, Laitue]) ====");
-//        List<Ingredient> dupIngredients = new ArrayList<>();
-//        dupIngredients.add(new Ingredient("Carotte", 2000.0, CategoryEnum.VEGETABLE));
-//        dupIngredients.add(new Ingredient("Laitue", 2000.0, CategoryEnum.VEGETABLE));
+//        List<Model.Ingredient> dupIngredients = new ArrayList<>();
+//        dupIngredients.add(new Model.Ingredient("Carotte", 2000.0, Enum.CategoryEnum.VEGETABLE));
+//        dupIngredients.add(new Model.Ingredient("Laitue", 2000.0, Enum.CategoryEnum.VEGETABLE));
 //        dr.createIngredients(dupIngredients);
 //
 //
 //        System.out.println("\n==== Test k) saveDish(Soupe de légumes) ====");
-//        Dish soupe = new Dish();
+//        Model.Dish soupe = new Model.Dish();
 //        soupe.setName("Soupe de légumes");
-//        soupe.setDishType(DishTypeEnum.START);
-//        List<Ingredient> soupeIngredients = new ArrayList<>();
-//        soupeIngredients.add(new Ingredient("Oignon", 500.0, CategoryEnum.VEGETABLE));
+//        soupe.setDishType(Enum.DishTypeEnum.START);
+//        List<Model.Ingredient> soupeIngredients = new ArrayList<>();
+//        soupeIngredients.add(new Model.Ingredient("Oignon", 500.0, Enum.CategoryEnum.VEGETABLE));
 //        soupe.setIngredient(soupeIngredients);
-//        Dish savedSoupe = dr.saveDish(soupe);
-//        System.out.println("Dish created: " + savedSoupe.getName());
-//        for (Ingredient ing : savedSoupe.getIngredient()) {
+//        Model.Dish savedSoupe = dr.saveDish(soupe);
+//        System.out.println("Model.Dish created: " + savedSoupe.getName());
+//        for (Model.Ingredient ing : savedSoupe.getIngredient()) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test l) saveDish(update Salade fraîche) ====");
-//        Dish salade = dr.findDishById(1);
-//        List<Ingredient> saladeIngredients = new ArrayList<>(salade.getIngredient());
-//        saladeIngredients.add(new Ingredient("Oignon", 500.0, CategoryEnum.VEGETABLE));
-//        saladeIngredients.add(new Ingredient("Fromage", 1200.0, CategoryEnum.DAIRY));
+//        Model.Dish salade = dr.findDishById(1);
+//        List<Model.Ingredient> saladeIngredients = new ArrayList<>(salade.getIngredient());
+//        saladeIngredients.add(new Model.Ingredient("Oignon", 500.0, Enum.CategoryEnum.VEGETABLE));
+//        saladeIngredients.add(new Model.Ingredient("Fromage", 1200.0, Enum.CategoryEnum.DAIRY));
 //        salade.setIngredient(saladeIngredients);
 //        salade = dr.saveDish(salade);
-//        System.out.println("Dish updated: " + salade.getName());
-//        for (Ingredient ing : salade.getIngredient()) {
+//        System.out.println("Model.Dish updated: " + salade.getName());
+//        for (Model.Ingredient ing : salade.getIngredient()) {
 //            System.out.println("- " + ing.getName());
 //        }
 //
 //        System.out.println("\n==== Test m) saveDish(update Salade de fromage) ====");
 //        salade.setName("Salade de fromage");
-//        List<Ingredient> fromageOnly = new ArrayList<>();
-//        fromageOnly.add(new Ingredient("Fromage", 1200.0, CategoryEnum.DAIRY));
+//        List<Model.Ingredient> fromageOnly = new ArrayList<>();
+//        fromageOnly.add(new Model.Ingredient("Fromage", 1200.0, Enum.CategoryEnum.DAIRY));
 //        salade.setIngredient(fromageOnly);
 //        salade = dr.saveDish(salade);
-//        System.out.println("Dish updated: " + salade.getName());
-//        for (Ingredient ing : salade.getIngredient()) {
+//        System.out.println("Model.Dish updated: " + salade.getName());
+//        for (Model.Ingredient ing : salade.getIngredient()) {
 //            System.out.println("- " + ing.getName());
 //        }
 
         /* Normal behavior */
-//        Dish dish1 = dr.findDishById(1);
-//        System.out.println("Dish: " + dish1.getGrossMargin()); // should return 600
+//        Model.Dish dish1 = dr.findDishById(1);
+//        System.out.println("Model.Dish: " + dish1.getGrossMargin()); // should return 600
 //
 //        /* should throw unchecked exception if i invoke getGrossMargin on dish n3*/
-//        Dish dish3 = dr.findDishById(3);
-//        System.out.println("Dish: " + dish3.getGrossMargin());
+//        Model.Dish dish3 = dr.findDishById(3);
+//        System.out.println("Model.Dish: " + dish3.getGrossMargin());
 //
 //        dish1.setPrice(2500.0);
 //        dr.saveDish(dish1);
 //
-//        Dish saladeUpdated = dr.findDishById(dish1.getId());
+//        Model.Dish saladeUpdated = dr.findDishById(dish1.getId());
 //        System.out.println("Nouveau prix : " + saladeUpdated.getPrice());
 //        System.out.println("Gross Margin : " + saladeUpdated.getGrossMargin())
         Ingredient ing1 = dr.findIngredientById(1);

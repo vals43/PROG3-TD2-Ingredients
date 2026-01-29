@@ -15,3 +15,9 @@ ALTER TABLE ingredient OWNER TO mini_dish_db_manager;
 ALTER TABLE dish OWNER TO mini_dish_db_manager;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO mini_dish_db_manager;
+
+-- Accorder le droit d'utilisation sur la séquence
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE order_id_seq TO mini_dish_db_manager;
+
+-- Par sécurité, si vous avez d'autres séquences, vous pouvez le faire pour toutes
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO mini_dish_db_manager;

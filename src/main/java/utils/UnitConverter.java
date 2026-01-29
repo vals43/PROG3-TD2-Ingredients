@@ -1,3 +1,6 @@
+package utils;
+
+import model.UnitType;
 
 import java.util.HashMap;
 import java.util.Map;

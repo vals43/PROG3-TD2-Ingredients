@@ -1,3 +1,4 @@
+import service.DataRetriever;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +37,7 @@ public class Dish {
     public Dish() {
     }
 
-    public Dish(Integer id, String name, DishTypeEnum dishType,Double price) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, Double price) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
@@ -88,7 +90,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        return "Dish{" +
+        return "Model.Dish{" +
                 "id=" + id +
                 ", price=" + price +
                 ", name='" + name + '\'' +

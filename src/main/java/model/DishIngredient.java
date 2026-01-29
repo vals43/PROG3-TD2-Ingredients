@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Objects;
 
 public class DishIngredient {
@@ -24,7 +26,7 @@ public class DishIngredient {
         this.ingredient = ingredient;
         this.dish = dish;
     }
-    public DishIngredient( double quantityRequired, UnitType unit, Ingredient ingredient, Dish dish) {
+    public DishIngredient(double quantityRequired, UnitType unit, Ingredient ingredient, Dish dish) {
         quantity_required = quantityRequired;
         this.unit = unit;
         this.ingredient = ingredient;
@@ -81,7 +83,7 @@ public class DishIngredient {
     }
     @Override
     public String toString() {
-        return "DishIngredient{" +
+        return "Model.DishIngredient{" +
                 "id=" + id +
                 ", quantity_required=" + quantity_required +
                 ", unit=" + unit +

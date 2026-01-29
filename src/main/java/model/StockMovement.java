@@ -1,3 +1,5 @@
+package model;
+
 import java.time.Instant;
 import java.util.Objects;
 
@@ -69,7 +71,7 @@ public class StockMovement {
 
     @Override
     public String toString() {
-        return "StockMovement{" +
+        return "Model.StockMovement{" +
                 "id=" + id +
                 ", value=" + value +
                 ", type=" + type +
