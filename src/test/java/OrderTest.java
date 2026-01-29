@@ -18,6 +18,11 @@ public class OrderTest {
         order.setType(OrderTypeEnum.TAKE_AWAY);
         order.setStatus(OrderStatusEnum.CREATED);
 
+        Dish dish = dr.findDishById(1);
+        DishOrder dishOrder = new DishOrder();
+        dishOrder.setDish(dish);
+        order.setDishOrders(List.of(dishOrder));
+
         dr.saveOrder(order);
 
         Order loaded = dr.findOrderByReference("ORD99999");
@@ -50,7 +55,7 @@ public class OrderTest {
         DataRetriever dr = new DataRetriever();
 
         Order order = new Order();
-        order.setReference("BLOCKED-1");
+        order.setReference("BLOCKED-2");
         order.setType(OrderTypeEnum.EAT_IN);
         order.setStatus(OrderStatusEnum.DELIVERED);
 
